@@ -8,8 +8,10 @@ volumes:
 
 x-op-restart-policy: &restart_policy
   restart: unless-stopped
+
 x-op-image: &image
   image: openproject/openproject:${TAG:-16-slim}
+
 x-op-app: &app
   <<: [*image, *restart_policy]
   environment:
@@ -25,7 +27,7 @@ x-op-app: &app
     # set to true to enable the email receiving feature. See ./docker/cron for more options
     IMAP_ENABLED: "${IMAP_ENABLED:-false}"
   volumes:
-    - "${OPDATA:-opdata}:/var/openproject/assets"
+    - opdata:/var/openproject/assets
 
 services:
   db:
@@ -33,7 +35,7 @@ services:
     <<: *restart_policy
     stop_grace_period: "3s"
     volumes:
-      - "${PGDATA:-pgdata}:/var/lib/postgresql/data"
+      - pgdata:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-p4ssw0rd}
       POSTGRES_DB: openproject
