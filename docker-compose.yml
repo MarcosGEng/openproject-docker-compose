@@ -1,3 +1,5 @@
+version: "3.9"
+
 networks:
   frontend:
   backend:
@@ -89,6 +91,8 @@ services:
       AUTOHEAL_CONTAINER_LABEL: autoheal
       AUTOHEAL_START_PERIOD: 600
       AUTOHEAL_INTERVAL: 30
+    networks:
+      - backend
 
   worker:
     <<: *app
